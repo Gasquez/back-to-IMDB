@@ -1,0 +1,18 @@
+Projet 2
+Objectif : Application de gestion de revue de film
+Fonctionnalité :
+  - se connecter (utilisateur /  administrateur)
+  - crée un compte
+  - ajouter une revue
+  - consulter une revue
+  - editer une revue
+  - commenter une revue
+  - supprimer une revue
+  - editer son compte
+  - noter une revue
+  
+Langage       : Java
+BDD           : mySQL
+Test unitaire : JUnit
+Acceptation   : cucumber
+Hebergement   : Github
