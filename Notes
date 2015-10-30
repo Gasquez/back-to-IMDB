@@ -17,8 +17,11 @@ Test unitaire : JUnit
 Acceptation   : JBehave
 Hebergement   : Github
 
+Glossaire :
+Release = date de sortie du film.
+
 TODO : 
 ecrire les scenarios complets (Given, When, Then).
-Rassembler les tables Movie et Review (PQ).
+Rassembler les tables Movie et Review, simplifier la BD = Varchar et pas cle etrangere (PQ).
 US 1 : GUI (Thomas), Controleur (Arlemi), Service et DAO (PQ).
 
