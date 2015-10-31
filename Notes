@@ -1,18 +1,27 @@
 Projet 2
 Objectif : Application de gestion de revue de film
 Fonctionnalité :
-  - se connecter (utilisateur /  administrateur)
-  - crée un compte
-  - ajouter une revue
-  - consulter une revue
-  - editer une revue
-  - commenter une revue
-  - supprimer une revue
-  - editer son compte
-  - noter une revue
+  1 - ajouter une revue
+  2 - consulter une revue
+  3 - supprimer une revue
+  4 - editer une revue
+  5 - noter une revue
+  6 - commenter une revue
+  7 - crée un compte
+  8 - se connecter (utilisateur /  administrateur)
+  9 - editer son compte
   
 Langage       : Java
 BDD           : mySQL
 Test unitaire : JUnit
-Acceptation   : cucumber
+Acceptation   : JBehave
 Hebergement   : Github
+
+Glossaire :
+Release = date de sortie du film.
+
+TODO : 
+ecrire les scenarios complets (Given, When, Then).
+Rassembler les tables Movie et Review, simplifier la BD = Varchar pour nationnalite et genre et non cle etrangere (PQ).
+US 1 : GUI (Thomas), Controleur (Arlemi), Service et DAO (PQ).
+
