@@ -7,14 +7,9 @@
 	Prenom
 	Courriel
 
-# Revue
+# Revue d'un film
 	Date de création
 	Date de dernière édition
-	Film concerné
-	Liste de commentaires
-	Liste de notes
-
-# Film
 	Titre
 	Date de sortie
 	Réalisateur
@@ -22,12 +17,13 @@
 	Genre
 	Nationnalité
 	Synopsis
+	Liste de commentaires
+	Liste de notes
 
 ## Choix de la structure
-Les données sur les films sont stockés sans aucun lien avec les revues.
+Le titre d'une revue correspond au titre d'un film.
 
-La supression d'une revue n'entraîne pas la suppression d'un film.
+La supression d'une revue entraîne la suppression d'un film.
 
-La supression d'un film entraîne la suppression d'une revue.
 
 Il y a au plus une revue par film.
