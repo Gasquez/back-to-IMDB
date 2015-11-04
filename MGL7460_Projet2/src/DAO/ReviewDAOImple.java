@@ -5,11 +5,10 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
+import Bean.Review;
+
 import com.mysql.jdbc.Connection;
 import com.mysql.jdbc.PreparedStatement;
-import com.mysql.jdbc.Statement;
-
-import Bean.Review;
 
 public class ReviewDAOImple implements ReviewDAO {
 
@@ -17,6 +16,7 @@ public class ReviewDAOImple implements ReviewDAO {
 		Connection connexion = (Connection) DBManager.getInstance().getConnection();
 		PreparedStatement statement = null;
 		ResultSet rs = null;
+		boolean hasResult = false;
 		
 		Review myReview = null;
 		
@@ -34,9 +34,11 @@ public class ReviewDAOImple implements ReviewDAO {
 			String kind = "";
 			String nationnality = "";
 			List<String> actors = new ArrayList<String>();
-			
+								
 			while (rs.next()) {
 				if (rs.isFirst()) {
+					hasResult = true;
+					
 					creationDate = rs.getTimestamp("creationDate").getTime();
 					editionDate = rs.getTimestamp("editionDate").getTime();
 					release = rs.getTimestamp("release").getTime();
@@ -47,7 +49,9 @@ public class ReviewDAOImple implements ReviewDAO {
 				}
 				actors.add(rs.getString("lastename") + " " + rs.getString("firstname"));
 			}
-			myReview = new Review(creationDate,	editionDate, title, release, producer, summary, kind, nationnality, actors);
+			
+			if (hasResult)
+				myReview = new Review(creationDate,	editionDate, title, release, producer, summary, kind, nationnality, actors);
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
@@ -80,7 +84,7 @@ public class ReviewDAOImple implements ReviewDAO {
 			if (!actors.isEmpty()) {
 				for (String actorName: actors) {
 					String lastname = actorName.substring(0, actorName.indexOf(" "));
-					String firstname = actorName.substring(actorName.indexOf(" "));
+					String firstname = actorName.substring(actorName.indexOf(" ") + 1);
 					
 					statement = (PreparedStatement) connexion.prepareStatement("INSERT INTO actor VALUES (?,?,?);");
 					statement.setString(1, title);
@@ -98,7 +102,19 @@ public class ReviewDAOImple implements ReviewDAO {
 	}
 
 	public void removeReview(String title) {
-		// TODO Auto-generated method stub
+		Connection connexion = (Connection) DBManager.getInstance().getConnection();
+		PreparedStatement statement = null;
+		ResultSet rs = null;
 		
+		try {
+			statement = (PreparedStatement) connexion.prepareStatement("DELETE FROM review WHERE title=?");
+			statement.setString(1, title);
+			
+			statement.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			DBManager.getInstance().cleanup(connexion, statement, rs);
+		}
 	}
 }

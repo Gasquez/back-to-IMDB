@@ -38,10 +38,10 @@ ENGINE = InnoDB;
 DROP TABLE IF EXISTS `WaTuGa_projet2`.`Review` ;
 
 CREATE TABLE IF NOT EXISTS `WaTuGa_projet2`.`Review` (
-  `creationDate` TIMESTAMP NOT NULL DEFAULT 0,
-  `editionDate` TIMESTAMP NOT NULL DEFAULT 0,
+  `creationDate` TIMESTAMP NOT NULL DEFAULT '2015-11-03 00:00:00',
+  `editionDate` TIMESTAMP NOT NULL DEFAULT '2015-11-03 00:00:00',
   `title` VARCHAR(45) NOT NULL,
-  `release` TIMESTAMP NOT NULL DEFAULT 0,
+  `release` TIMESTAMP NOT NULL DEFAULT '2015-11-03 00:00:00',
   `producer` VARCHAR(45) NULL,
   `summary` VARCHAR(255) NULL,
   `kind` VARCHAR(45) NULL,
@@ -135,7 +135,7 @@ COMMIT;
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `WaTuGa_projet2`;
-INSERT INTO `WaTuGa_projet2`.`Review` (`creationDate`, `editionDate`, `title`, `release`, `producer`, `summary`, `kind`, `nationnality`) VALUES ('0', '0', 'test1', '0', 'Arthuer', 'Aucun', 'Action', 'Français');
+INSERT INTO `WaTuGa_projet2`.`Review` (`creationDate`, `editionDate`, `title`, `release`, `producer`, `summary`, `kind`, `nationnality`) VALUES ('2015-11-03 00:00:00', '2015-11-03 00:00:00', 'test1', '2015-11-03 00:00:00', 'Arthuer', 'Aucun', 'Action', 'Francais');
 
 COMMIT;
 

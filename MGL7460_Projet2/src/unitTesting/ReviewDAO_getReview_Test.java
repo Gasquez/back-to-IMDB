@@ -21,10 +21,10 @@ public class ReviewDAO_getReview_Test extends ReviewDAO_Test {
 		List<String> expectedActors = Arrays.asList("Trembley Guy");
 		
 		assertNotNull(myReview);
-		assertEquals(0, myReview.getCreationDate());
-		assertEquals(0, myReview.getEditionDate());
+		assertEquals(1446526800000L, myReview.getCreationDate());
+		assertEquals(1446526800000L, myReview.getEditionDate());
 		assertEquals("test1", myReview.getTitle());
-		assertEquals(0, myReview.getRelease());
+		assertEquals(1446526800000L, myReview.getRelease());
 		assertEquals("Arthuer", myReview.getProducer());
 		assertEquals("Aucun", myReview.getSummary());
 		assertEquals("Action", myReview.getKind());
