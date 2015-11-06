@@ -56,15 +56,37 @@ ENGINE = InnoDB;
 DROP TABLE IF EXISTS `WaTuGa_projet2`.`Actor` ;
 
 CREATE TABLE IF NOT EXISTS `WaTuGa_projet2`.`Actor` (
-  `review_title` VARCHAR(45) NOT NULL,
-  `lastename` VARCHAR(45) NOT NULL,
+  `lastname` VARCHAR(45) NOT NULL,
   `firstname` VARCHAR(45) NOT NULL,
-  PRIMARY KEY (`review_title`, `lastename`, `firstname`),
-  CONSTRAINT `review_title_fk_Actor`
+  PRIMARY KEY (`lastname`, `firstname`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `WaTuGa_projet2`.`ActorReview`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `WaTuGa_projet2`.`ActorReview` ;
+
+CREATE TABLE IF NOT EXISTS `WaTuGa_projet2`.`ActorReview` (
+  `review_title` VARCHAR(45) NOT NULL,
+  `actor_lastname` VARCHAR(45) NOT NULL,
+  `actor_firstname` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`review_title`, `actor_lastname`, `actor_firstname`),
+  CONSTRAINT `review_title_fk_ActorReview`
     FOREIGN KEY (`review_title`)
     REFERENCES `WaTuGa_projet2`.`Review` (`title`)
     ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT `lastname_fk_ActorReview`
+    FOREIGN KEY (`actor_lastname`)
+    REFERENCES `WaTuGa_projet2`.`Actor` (`lastname`)
+    ON DELETE CASCADE
     ON UPDATE CASCADE)
+--  CONSTRAINT `firstname_fk_ActorReview`
+--    FOREIGN KEY (`actor_firstname`)
+--    REFERENCES `WaTuGa_projet2`.`Actor` (`firstname`)
+--    ON DELETE CASCADE
+--    ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
 
@@ -139,13 +161,23 @@ INSERT INTO `WaTuGa_projet2`.`Review` (`creationDate`, `editionDate`, `title`, `
 
 COMMIT;
 
-
 -- -----------------------------------------------------
 -- Data for table `WaTuGa_projet2`.`Actor`
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `WaTuGa_projet2`;
-INSERT INTO `WaTuGa_projet2`.`Actor` (`review_title`, `lastename`, `firstname`) VALUES ('test1', 'Trembley', 'Guy');
+INSERT INTO `WaTuGa_projet2`.`Actor` (`lastname`, `firstname`) VALUES ('Tremblay', 'Guy');
+INSERT INTO `WaTuGa_projet2`.`Actor` (`lastname`, `firstname`) VALUES ('Guillemette', 'Francois');
+
+COMMIT;
+
+
+-- -----------------------------------------------------
+-- Data for table `WaTuGa_projet2`.`ActorReview`
+-- -----------------------------------------------------
+START TRANSACTION;
+USE `WaTuGa_projet2`;
+INSERT INTO `WaTuGa_projet2`.`ActorReview` (`review_title`, `actor_lastname`, `actor_firstname`) VALUES ('test1', 'Tremblay', 'Guy');
 
 COMMIT;
 

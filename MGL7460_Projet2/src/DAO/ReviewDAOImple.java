@@ -1,9 +1,13 @@
 package DAO;
 
+import java.lang.reflect.Array;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import Bean.Review;
 
@@ -21,7 +25,7 @@ public class ReviewDAOImple implements ReviewDAO {
 		Review myReview = null;
 		
 		try {
-			statement = (PreparedStatement) connexion.prepareStatement("SELECT * FROM review,actor WHERE review.title= ? AND review.title = actor.review_title;");
+			statement = (PreparedStatement) connexion.prepareStatement("SELECT * FROM review,actor,actorreview WHERE review.title=? AND review.title = actorreview.review_title AND actorreview.actor_lastename=actor.lastename AND actorreview.actor_firstname=actor.firstname;");
 			statement.setString(1, title);
 
 			rs = statement.executeQuery();
@@ -61,7 +65,7 @@ public class ReviewDAOImple implements ReviewDAO {
 		return myReview;
 	}
 
-	public void addReview(long creationDate, long editionDate, String title, long release, String producer, String summary, String kind, String nationnality, List<String> actors) {
+	public boolean addReview(long creationDate, long editionDate, String title, long release, String producer, String summary, String kind, String nationnality, List<String> actors) {
 		Connection connexion = (Connection) DBManager.getInstance().getConnection();
 		PreparedStatement statement = null;
 		ResultSet rs = null;
@@ -86,7 +90,7 @@ public class ReviewDAOImple implements ReviewDAO {
 					String lastname = actorName.substring(0, actorName.indexOf(" "));
 					String firstname = actorName.substring(actorName.indexOf(" ") + 1);
 					
-					statement = (PreparedStatement) connexion.prepareStatement("INSERT INTO actor VALUES (?,?,?);");
+					statement = (PreparedStatement) connexion.prepareStatement("INSERT INTO actorreview VALUES (?,?,?);");
 					statement.setString(1, title);
 					statement.setString(2, lastname);
 					statement.setString(3, firstname);
@@ -96,12 +100,20 @@ public class ReviewDAOImple implements ReviewDAO {
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
+			return false;
 		} finally {
 			DBManager.getInstance().cleanup(connexion, statement, rs);
 		}
+		
+		return true;
 	}
 
-	public void removeReview(String title) {
+	public boolean updateReview(long editionDate, String title, long release, String producer, String summary, String kind, String nationnality) {
+		//TODO complete updateReview
+		return true;
+	}
+	
+	public boolean removeReview(String title) {
 		Connection connexion = (Connection) DBManager.getInstance().getConnection();
 		PreparedStatement statement = null;
 		ResultSet rs = null;
@@ -113,8 +125,71 @@ public class ReviewDAOImple implements ReviewDAO {
 			statement.executeUpdate();
 		} catch (Exception e) {
 			e.printStackTrace();
+			return false;
 		} finally {
 			DBManager.getInstance().cleanup(connexion, statement, rs);
 		}
+		
+		return true;
+	}
+
+	public Map<String, Review> getAllReviews() {
+		Connection connexion = (Connection) DBManager.getInstance().getConnection();
+		PreparedStatement statement = null;
+		ResultSet rs = null;
+		boolean hasResult = false;
+		
+		Map<String, Review> myMapReviews = new HashMap<String, Review>();
+		
+		try {
+			statement = (PreparedStatement) connexion.prepareStatement("SELECT * FROM review,actor,actorreview WHERE review.title = actorreview.review_title AND actorreview.actor_lastename=actor.lastename AND actorreview.actor_firstname=actor.firstname;");
+			rs = statement.executeQuery();
+
+			String title = "";
+			long creationDate = 0;
+			long editionDate = 0;
+			long release = 0;
+			String producer = "";
+			String summary = "";
+			String kind = "";
+			String nationnality = "";
+			String actorLastName = "";
+			String actorFirstName = "";
+								
+			while (rs.next()) {
+				title = rs.getString("title");
+				
+				if (!myMapReviews.containsKey(title)) {
+					// Create Review
+					creationDate = rs.getTimestamp("creationDate").getTime();
+					editionDate = rs.getTimestamp("editionDate").getTime();
+					release = rs.getTimestamp("release").getTime();
+					producer = rs.getString("producer");
+					summary = rs.getString("summary");
+					kind = rs.getString("kind");
+					nationnality = rs.getString("nationnality");
+					actorLastName = rs.getString("lastename");
+					actorFirstName = rs.getString("firstname");
+					
+					myMapReviews.put(
+							title, 
+							new Review(creationDate, editionDate, title, release, producer, summary, kind, nationnality, Arrays.asList(actorFirstName + " " + actorFirstName)));
+				} else {
+					// Add actors
+					myMapReviews.get(title).addActor(actorFirstName + " " + actorFirstName);	
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			DBManager.getInstance().cleanup(connexion, statement, rs);
+		}
+		
+		return myMapReviews;
+	}
+
+	public List<String> getAllActors() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

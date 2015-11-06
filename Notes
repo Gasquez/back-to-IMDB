@@ -10,7 +10,9 @@ Fonctionnalité :
   7 - crée un compte
   8 - se connecter (utilisateur /  administrateur)
   9 - editer son compte
-  
+
+Mise à jour des acteurs d'un film non possible. 
+
 Langage       : Java
 BDD           : mySQL
 Test unitaire : JUnit

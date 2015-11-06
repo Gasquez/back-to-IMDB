@@ -32,6 +32,10 @@ public class Review {
 
 	}
 	
+	public void addActor(String actor) {
+		this.actors.add(actor);
+	}
+	
 	public long getCreationDate() {
 		return creationDate;
 	}

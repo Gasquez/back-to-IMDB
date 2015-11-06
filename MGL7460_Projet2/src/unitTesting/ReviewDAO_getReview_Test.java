@@ -18,7 +18,7 @@ public class ReviewDAO_getReview_Test extends ReviewDAO_Test {
 	public void test() {
 		Review myReview = myDAO.getReview("test1");
 		
-		List<String> expectedActors = Arrays.asList("Trembley Guy");
+		List<String> expectedActors = Arrays.asList("Tremblay Guy");
 		
 		assertNotNull(myReview);
 		assertEquals(1446526800000L, myReview.getCreationDate());
