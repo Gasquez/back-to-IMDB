@@ -25,7 +25,16 @@ public class ReviewDAOImple implements ReviewDAO {
 		Review myReview = null;
 		
 		try {
-			statement = (PreparedStatement) connexion.prepareStatement("SELECT * FROM review,actor,actorreview WHERE review.title=? AND review.title = actorreview.review_title AND actorreview.actor_lastename=actor.lastename AND actorreview.actor_firstname=actor.firstname;");
+			statement = (PreparedStatement) connexion.prepareStatement(
+					"SELECT * FROM review "
+					+ "LEFT OUTER JOIN "
+					+ "(SELECT * "
+					+ "FROM actorreview,actor "
+					+ "WHERE actorreview.actor_lastname=actor.lastname "
+					+ "AND actorreview.actor_firstname=actor.firstname) AS T "
+					+ "ON review.title = T.review_title "
+					+ "WHERE title=? "
+					+ ";");
 			statement.setString(1, title);
 
 			rs = statement.executeQuery();
@@ -40,6 +49,9 @@ public class ReviewDAOImple implements ReviewDAO {
 			List<String> actors = new ArrayList<String>();
 								
 			while (rs.next()) {
+				String lastName = rs.getString("lastname");
+				String firstName = rs.getString("firstname");
+				
 				if (rs.isFirst()) {
 					hasResult = true;
 					
@@ -51,7 +63,8 @@ public class ReviewDAOImple implements ReviewDAO {
 					kind = rs.getString("kind");
 					nationnality = rs.getString("nationnality");
 				}
-				actors.add(rs.getString("lastename") + " " + rs.getString("firstname"));
+				if (lastName != null && firstName != null)
+					actors.add(lastName + " " + firstName);
 			}
 			
 			if (hasResult)
@@ -108,8 +121,30 @@ public class ReviewDAOImple implements ReviewDAO {
 		return true;
 	}
 
-	public boolean updateReview(long editionDate, String title, long release, String producer, String summary, String kind, String nationnality) {
-		//TODO complete updateReview
+	public boolean updateReview(long editionDate, String oldTitle, String title, long release, String producer, String summary, String kind, String nationnality) {
+		Connection connexion = (Connection) DBManager.getInstance().getConnection();
+		PreparedStatement statement = null;
+		ResultSet rs = null;
+		
+		try {
+			statement = (PreparedStatement) connexion.prepareStatement("UPDATE review SET editionDate=?,title=?,`release`=?,producer=?,summary=?,kind=?,nationnality=? WHERE title=?");
+			statement.setTimestamp(1, new Timestamp(editionDate));
+			statement.setString(2, title);
+			statement.setTimestamp(3, new Timestamp(release));
+			statement.setString(4, producer);
+			statement.setString(5, summary);
+			statement.setString(6, kind);
+			statement.setString(7, nationnality);
+			statement.setString(8, oldTitle);			
+			
+			statement.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		} finally {
+			DBManager.getInstance().cleanup(connexion, statement, rs);
+		}
+		
 		return true;
 	}
 	
@@ -142,7 +177,7 @@ public class ReviewDAOImple implements ReviewDAO {
 		Map<String, Review> myMapReviews = new HashMap<String, Review>();
 		
 		try {
-			statement = (PreparedStatement) connexion.prepareStatement("SELECT * FROM review,actor,actorreview WHERE review.title = actorreview.review_title AND actorreview.actor_lastename=actor.lastename AND actorreview.actor_firstname=actor.firstname;");
+			statement = (PreparedStatement) connexion.prepareStatement("SELECT * FROM review,actor,actorreview WHERE review.title = actorreview.review_title AND actorreview.actor_lastname=actor.lastname AND actorreview.actor_firstname=actor.firstname;");
 			rs = statement.executeQuery();
 
 			String title = "";
@@ -158,25 +193,24 @@ public class ReviewDAOImple implements ReviewDAO {
 								
 			while (rs.next()) {
 				title = rs.getString("title");
+				creationDate = rs.getTimestamp("creationDate").getTime();
+				editionDate = rs.getTimestamp("editionDate").getTime();
+				release = rs.getTimestamp("release").getTime();
+				producer = rs.getString("producer");
+				summary = rs.getString("summary");
+				kind = rs.getString("kind");
+				nationnality = rs.getString("nationnality");
+				actorLastName = rs.getString("lastname");
+				actorFirstName = rs.getString("firstname");
 				
 				if (!myMapReviews.containsKey(title)) {
 					// Create Review
-					creationDate = rs.getTimestamp("creationDate").getTime();
-					editionDate = rs.getTimestamp("editionDate").getTime();
-					release = rs.getTimestamp("release").getTime();
-					producer = rs.getString("producer");
-					summary = rs.getString("summary");
-					kind = rs.getString("kind");
-					nationnality = rs.getString("nationnality");
-					actorLastName = rs.getString("lastename");
-					actorFirstName = rs.getString("firstname");
-					
 					myMapReviews.put(
 							title, 
-							new Review(creationDate, editionDate, title, release, producer, summary, kind, nationnality, Arrays.asList(actorFirstName + " " + actorFirstName)));
+							new Review(creationDate, editionDate, title, release, producer, summary, kind, nationnality, Arrays.asList(actorLastName + " " + actorFirstName)));
 				} else {
 					// Add actors
-					myMapReviews.get(title).addActor(actorFirstName + " " + actorFirstName);	
+					myMapReviews.get(title).addActor(actorLastName + " " + actorFirstName);
 				}
 			}
 		} catch (Exception e) {
@@ -189,7 +223,34 @@ public class ReviewDAOImple implements ReviewDAO {
 	}
 
 	public List<String> getAllActors() {
-		// TODO Auto-generated method stub
-		return null;
+		Connection connexion = (Connection) DBManager.getInstance().getConnection();
+		PreparedStatement statement = null;
+		ResultSet rs = null;
+		
+		List<String> myListActors = new ArrayList<String>();
+		
+		try {
+			statement = (PreparedStatement) connexion.prepareStatement("SELECT * FROM actor;");
+			rs = statement.executeQuery();
+
+			String actorLastName = "";
+			String actorFirstName = "";
+								
+			while (rs.next()) {
+				actorLastName = rs.getString("lastname");
+				actorFirstName = rs.getString("firstname");
+				
+				myListActors.add(
+						actorLastName
+						+ " "
+						+ actorFirstName);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			DBManager.getInstance().cleanup(connexion, statement, rs);
+		}
+		
+		return myListActors;
 	}
 }

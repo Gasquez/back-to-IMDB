@@ -13,7 +13,7 @@ public class ReviewDAO_getAllActors_Test extends ReviewDAO_Test {
 	public void test() {
 		List<String> actors = myDAO.getAllActors();
 		
-		List<String> expectedActors = Arrays.asList("Tremblay Guy", "Guillemette Francois");
+		List<String> expectedActors = Arrays.asList("Guillemette Francois", "Tremblay Guy");
 		
 		assertEquals(expectedActors, actors);
 	}

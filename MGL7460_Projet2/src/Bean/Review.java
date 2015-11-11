@@ -17,8 +17,6 @@ public class Review {
 	String nationnality;
 	List<String> actors;
 	
-	{ actors = new ArrayList<String>(); }
-	
 	public Review(long creationDate, long editionDate, String title, long release, String producer, String summary, String kind, String nationnality, List<String> actors) {
 		this.creationDate = creationDate;
 		this.editionDate = editionDate;
@@ -28,7 +26,10 @@ public class Review {
 		this.summary = summary;
 		this.kind = kind;
 		this.nationnality = nationnality;
-		this.actors = actors;
+		this.actors = new ArrayList<String>();
+		for (String actor: actors) {
+			this.actors.add(actor);
+		}
 
 	}
 	

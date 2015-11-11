@@ -28,10 +28,10 @@ public class ReviewDAO_removeReview_Test extends ReviewDAO_Test {
 		String summary = "tellement mauvais qu'il ne faut mieux pas l'expliquer...";
 		String kind = "Mauvais film";
 		String nationnality = "Belge";
-		String actorLastName1 = "Bricoleur";
-		String actorFirstName1 = "Bob";
-		String actorLastName2 = "Clown";
-		String actorFirstName2 = "Bozo";
+		String actorLastName1 = "Guillemette";
+		String actorFirstName1 = "Francois";
+		String actorLastName2 = "Tremblay";
+		String actorFirstName2 = "Guy";
 		
 		List<String> actors = new ArrayList<String>();
 		actors.add(actorLastName1 + " " + actorFirstName1);
