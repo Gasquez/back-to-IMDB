@@ -1,0 +1,34 @@
+package unitTesting;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import org.junit.After;
+import org.junit.Test;
+
+import Bean.Review;
+
+public class ReviewController_getReview_Test extends ReviewController_Test {
+	@Test
+	public void test() {
+		Review myReview = myHandler.getReview("test1");
+		
+		List<String> expectedActors = Arrays.asList("Tremblay Guy");
+		
+		assertNotNull(myReview);
+		assertEquals(new Timestamp(1446526800000L), myReview.getCreationDate());
+		assertEquals(new Timestamp(1446526800000L), myReview.getEditionDate());
+		assertEquals("test1", myReview.getTitle());
+		assertEquals(new Timestamp(1446526800000L), myReview.getRelease());
+		assertEquals("Arthuer", myReview.getProducer());
+		assertEquals("Aucun", myReview.getSummary());
+		assertEquals("Action", myReview.getKind());
+		assertEquals("Francais", myReview.getNationnality());
+		assertEquals(expectedActors, myReview.getActors());
+	}
+}
