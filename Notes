@@ -27,3 +27,9 @@ ecrire les scenarios complets (Given, When, Then).
 Rassembler les tables Movie et Review, simplifier la BD = Varchar pour nationnalite et genre et non cle etrangere (PQ).
 US 1 : GUI (Thomas), Controleur (Arlemi), Service et DAO (PQ).
 
+Squellette du rapport :
+Présentation du projet
+M + test M (tests unitaires)
+V + test V (tests acceptation)
+C + test C
+Conclusion

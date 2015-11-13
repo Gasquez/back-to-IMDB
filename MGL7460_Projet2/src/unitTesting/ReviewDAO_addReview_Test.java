@@ -3,6 +3,7 @@ package unitTesting;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -20,9 +21,9 @@ public class ReviewDAO_addReview_Test extends ReviewDAO_Test {
 	
 	@Test
 	public void test() {
-		long creationDate = 1446585292;
-		long editionDate = 1445585292;
-		long release = 1446575292;
+		long creationDate = 1446585292000L;
+		long editionDate = 1445585292000L;
+		long release = 1446575292000L;
 		String producer = "Jean Patate";
 		String summary = "tellement mauvais qu'il ne faut mieux pas l'expliquer...";
 		String kind = "Mauvais film";
@@ -40,13 +41,13 @@ public class ReviewDAO_addReview_Test extends ReviewDAO_Test {
 		
 		Review myReview = myDAO.getReview(title);
 		
-		List<String> expectedActors = Arrays.asList(actorLastName1 + " " + actorFirstName1, actorLastName2 + " " + actorFirstName2);
+		List<String> expectedActors = Arrays.asList(actorLastName2 + " " + actorFirstName2, actorLastName1 + " " + actorFirstName1);
 		
 		assertNotNull(myReview);
-//		assertEquals(creationDate, myReview.getCreationDate());
-//		assertEquals(editionDate, myReview.getEditionDate());
+		assertEquals(new Timestamp(creationDate), myReview.getCreationDate());
+		assertEquals(new Timestamp(editionDate), myReview.getEditionDate());
 		assertEquals(title, myReview.getTitle());
-//		assertEquals(release, myReview.getRelease());
+		assertEquals(new Timestamp(release), myReview.getRelease());
 		assertEquals(producer, myReview.getProducer());
 		assertEquals(summary, myReview.getSummary());
 		assertEquals(kind, myReview.getKind());

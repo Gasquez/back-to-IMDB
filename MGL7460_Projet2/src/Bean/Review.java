@@ -1,23 +1,22 @@
 package Bean;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.management.relation.Relation;
-
 public class Review {
 	
-	long creationDate;
-	long editionDate;
+	Timestamp creationDate;
+	Timestamp editionDate;
 	String title;
-	long release;
+	Timestamp release;
 	String producer;
 	String summary;
 	String kind;
 	String nationnality;
 	List<String> actors;
 	
-	public Review(long creationDate, long editionDate, String title, long release, String producer, String summary, String kind, String nationnality, List<String> actors) {
+	public Review(Timestamp creationDate, Timestamp editionDate, String title, Timestamp release, String producer, String summary, String kind, String nationnality, List<String> actors) {
 		this.creationDate = creationDate;
 		this.editionDate = editionDate;
 		this.title = title;
@@ -37,11 +36,11 @@ public class Review {
 		this.actors.add(actor);
 	}
 	
-	public long getCreationDate() {
+	public Timestamp getCreationDate() {
 		return creationDate;
 	}
 	
-	public long getEditionDate() {
+	public Timestamp getEditionDate() {
 		return editionDate;
 	}
 	
@@ -49,7 +48,7 @@ public class Review {
 		return title;
 	}
 	
-	public long getRelease() {
+	public Timestamp getRelease() {
 		return release;
 	}
 	

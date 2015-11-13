@@ -39,9 +39,9 @@ public class ReviewDAOImple implements ReviewDAO {
 
 			rs = statement.executeQuery();
 			
-			long creationDate = 0;
-			long editionDate = 0;
-			long release = 0;
+			Timestamp creationDate = null;
+			Timestamp editionDate = null;
+			Timestamp release = null;
 			String producer = "";
 			String summary = "";
 			String kind = "";
@@ -55,9 +55,9 @@ public class ReviewDAOImple implements ReviewDAO {
 				if (rs.isFirst()) {
 					hasResult = true;
 					
-					creationDate = rs.getTimestamp("creationDate").getTime();
-					editionDate = rs.getTimestamp("editionDate").getTime();
-					release = rs.getTimestamp("release").getTime();
+					creationDate = rs.getTimestamp("creationDate");
+					editionDate = rs.getTimestamp("editionDate");
+					release = rs.getTimestamp("release");
 					producer = rs.getString("producer");
 					summary = rs.getString("summary");
 					kind = rs.getString("kind");
@@ -181,9 +181,9 @@ public class ReviewDAOImple implements ReviewDAO {
 			rs = statement.executeQuery();
 
 			String title = "";
-			long creationDate = 0;
-			long editionDate = 0;
-			long release = 0;
+			Timestamp creationDate = null;
+			Timestamp editionDate = null;
+			Timestamp release = null;
 			String producer = "";
 			String summary = "";
 			String kind = "";
@@ -193,9 +193,9 @@ public class ReviewDAOImple implements ReviewDAO {
 								
 			while (rs.next()) {
 				title = rs.getString("title");
-				creationDate = rs.getTimestamp("creationDate").getTime();
-				editionDate = rs.getTimestamp("editionDate").getTime();
-				release = rs.getTimestamp("release").getTime();
+				creationDate = rs.getTimestamp("creationDate");
+				editionDate = rs.getTimestamp("editionDate");
+				release = rs.getTimestamp("release");
 				producer = rs.getString("producer");
 				summary = rs.getString("summary");
 				kind = rs.getString("kind");

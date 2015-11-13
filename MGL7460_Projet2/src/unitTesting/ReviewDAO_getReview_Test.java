@@ -3,6 +3,7 @@ package unitTesting;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
+import java.sql.Timestamp;
 import java.util.Arrays;
 import java.util.List;
 
@@ -21,10 +22,10 @@ public class ReviewDAO_getReview_Test extends ReviewDAO_Test {
 		List<String> expectedActors = Arrays.asList("Tremblay Guy");
 		
 		assertNotNull(myReview);
-		assertEquals(1446526800000L, myReview.getCreationDate());
-		assertEquals(1446526800000L, myReview.getEditionDate());
+		assertEquals(new Timestamp(1446526800000L), myReview.getCreationDate());
+		assertEquals(new Timestamp(1446526800000L), myReview.getEditionDate());
 		assertEquals("test1", myReview.getTitle());
-		assertEquals(1446526800000L, myReview.getRelease());
+		assertEquals(new Timestamp(1446526800000L), myReview.getRelease());
 		assertEquals("Arthuer", myReview.getProducer());
 		assertEquals("Aucun", myReview.getSummary());
 		assertEquals("Action", myReview.getKind());
