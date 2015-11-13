@@ -86,7 +86,7 @@ public class IHM extends JFrame{
 					ArrayList<Integer> listTrash = new ArrayList<Integer>();
 					listTrash.add(1);
 					listTrash.add(10);
-					new ReviewIHM(panelLOW,buttonOneMovie.getText(),"2011","The prod", "summery badass", listTrash);
+					new ReviewIHM(panelLOW,buttonOneMovie.getText(),"2011","The prod", "summery badass","horror","french", listTrash);
 				}
 			});
 			list.add(buttonOneMovie);

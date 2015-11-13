@@ -31,12 +31,15 @@ public class ReviewIHM extends JFrame{
 	String release;
 	String productor;
 	String summery;
+	String kind;
+	String nationnality;
 	List<Integer> actors;
 	
 	JPanel containerParentPanel;
 	JPanel containerPanel = new JPanel();	//General container
 	JPanel firstRowPanel = new JPanel();	//Panel for name and modify button
 	JPanel secondRowPanel = new JPanel();	//Panel for productor and release date
+	JPanel secondRowBisPanel = new JPanel(); //Panel for kind and nationality
 	JPanel thirdRowPanel = new JPanel();	//Panel for actors
 	JPanel fourRowPanel = new JPanel();		//Panel for summery
 	
@@ -44,6 +47,8 @@ public class ReviewIHM extends JFrame{
 	JTextArea summeryTextArea;
 	JTextField productorTextField;
 	JTextField releaseTextField;
+	JTextField kindTextField;
+	JTextField nationnalityTextField;
 	JLabel actorsListLabel ;
 	JPanel actorsListModifyPanel ;
 	List<String> actorsListTemp ;
@@ -63,6 +68,8 @@ public class ReviewIHM extends JFrame{
 	 * @param release
 	 * @param productor
 	 * @param summery
+	 * @param kind
+	 * @param nationnality
 	 * @param actors - array of integer
 	 */
 	public ReviewIHM(	JPanel containerParent,
@@ -70,6 +77,8 @@ public class ReviewIHM extends JFrame{
 						String release,
 						String productor,
 						String summery,
+						String kind,
+						String nationnality,
 						List<Integer> actors
 					)
 	{
@@ -78,6 +87,8 @@ public class ReviewIHM extends JFrame{
 		this.productor = productor;
 		this.summery = summery;
 		this.actors = actors;
+		this.kind = kind;
+		this.nationnality = nationnality;
 		this.containerParentPanel = containerParent ;
 		modifyReleaseButton.setName("Modify");
 		deleateReleaseButton.setName("Deleate");
@@ -106,6 +117,7 @@ public class ReviewIHM extends JFrame{
 		gridLayoutRow.setRows(0);
 		gridLayoutRow.setHgap(10);
 		secondRowPanel.setLayout(gridLayoutRow); 
+		secondRowBisPanel.setLayout(gridLayoutRow); 
 		thirdRowPanel.setLayout(new BoxLayout(thirdRowPanel, BoxLayout.X_AXIS)); 
 		fourRowPanel.setLayout(new BoxLayout(fourRowPanel, BoxLayout.X_AXIS));
 		
@@ -136,6 +148,8 @@ public class ReviewIHM extends JFrame{
 					summeryTextArea.setEditable(true);
 					productorTextField.setEditable(true);
 					releaseTextField.setEditable(true);
+					kindTextField.setEditable(true);
+					nationnalityTextField.setEditable(true);
 					actorsListLabel.hide() ;
 					actorsListModifyPanel.show() ;
 					
@@ -145,6 +159,8 @@ public class ReviewIHM extends JFrame{
 					summeryTextArea.setEditable(false);
 					productorTextField.setEditable(false);
 					releaseTextField.setEditable(false);
+					kindTextField.setEditable(false);
+					nationnalityTextField.setEditable(false);
 					actorsListLabel.show() ;
 					actorsListModifyPanel.hide() ;
 					//TODO LUNCH SAVE TO CONTROLEUR
@@ -181,7 +197,23 @@ public class ReviewIHM extends JFrame{
 		secondRowPanel.add(productorTextField);
 		secondRowPanel.add(releaseLabel);
 		secondRowPanel.add(releaseTextField);
-
+	/*
+	 * Second row bis
+	 */
+		JLabel kindLabel = new JLabel ("Kind : ");
+		kindTextField = new JTextField(this.getKind());
+		kindTextField.setEditable(false);
+		
+		JLabel nationnalityLabel = new JLabel ("Nationnality : ");
+		nationnalityTextField = new JTextField(this.getNationnality());
+		nationnalityTextField.setEditable(false);
+		
+		
+		secondRowBisPanel.add(kindLabel);
+		secondRowBisPanel.add(kindTextField);
+		secondRowBisPanel.add(nationnalityLabel);
+		secondRowBisPanel.add(nationnalityTextField);
+		
 	/*
 	 * Third row	
 	 */
@@ -254,6 +286,7 @@ public class ReviewIHM extends JFrame{
 	 */
 		containerPanel.add(firstRowPanel);
 		containerPanel.add(secondRowPanel);
+		containerPanel.add(secondRowBisPanel);
 		containerPanel.add(thirdRowPanel);
 		containerPanel.add(fourRowPanel);
 	/*
@@ -289,6 +322,14 @@ public class ReviewIHM extends JFrame{
 
 	public List<Integer> getActors(){
 		return actors;
+	}
+	
+	public String getKind(){
+		return kind;
+	}
+	
+	public String getNationnality(){
+		return nationnality;
 	}
 	
 	public JButton getButton(){
