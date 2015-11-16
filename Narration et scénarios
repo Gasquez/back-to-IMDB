@@ -1,0 +1,33 @@
+Sample story
+					 
+Narrative: 
+In order to add something to the database
+As a user
+I want to add a review
+
+Scenario: add a review that doesn't exist
+Given la revue nommée "Terminator" n'existe pas
+When j'ajoute la revue "Terminator" avec la date de diffusion "1984-12-31 00:00:00" au système 
+Then la revue "Terminator" est accessible et sa date de création est égale à la  date de dernière modification
+
+Scenario: add a review that already exist
+Given la revue "Terminator" existe
+When j'ajoute la revue "Terminator" avec la date de diffusion "1984-12-31 00:00:00" au système 
+Then il n'existe qu'une seule revue en bdd et sa date de création est antérieure à T
+
+Narrative:
+As a user
+I want to add a review
+So that people can read it
+
+Given une application de revue de films
+When j'ajoute une revue
+Then si j'interroge la bdd, je retrouve la revue
+
+Given une revue nommée "Harry Potter 3"
+When je modifie le synopsis par A à un instant T
+Then si j'interroge la bdd, le synopsis de "Harry Potter 3" est A et la date de dernière modification est T
+
+Given une revue nommée "Star Wars"
+When je la supprime
+Then si j'interroge la bdd, je n'ai pas de résultats
