@@ -19,6 +19,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
 import Bean.Review;
+import ReviewIHM.ReviewIHM;
 import controllers.Handlers;
 
 public class IHM extends JFrame{
@@ -84,7 +85,7 @@ public class IHM extends JFrame{
 					String selectedReviewName = buttonOneMovie.getText();
 					Review selectedReview = controller.getReview(selectedReviewName);
 					
-					new ReviewIHM( panelLOW, selectedReview );
+					new ReviewIHM( controller, panelLOW, selectedReview );
 				}
 			});
 			list.add(buttonOneMovie);
