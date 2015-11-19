@@ -10,9 +10,14 @@ import javax.swing.JFrame;
 
 import Bean.Review;
 import DAO.*;
+import IHM.IHM;
 
 public class Handlers {
 	JFrame currentFrame = null;
+	
+	public Handlers() {
+		new IHM(this);
+	}
 	
 	// done
 	public boolean addReview(String title, long release, String producer, String summary, String kind, String nationnality, List<String> actors)

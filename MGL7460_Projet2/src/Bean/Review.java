@@ -36,20 +36,20 @@ public class Review {
 		this.actors.add(actor);
 	}
 	
-	public Timestamp getCreationDate() {
-		return creationDate;
+	public long getCreationDate() {
+		return creationDate.getTime();
 	}
 	
-	public Timestamp getEditionDate() {
-		return editionDate;
+	public long getEditionDate() {
+		return editionDate.getTime();
 	}
 	
 	public String getTitle() {
 		return title;
 	}
 	
-	public Timestamp getRelease() {
-		return release;
+	public long getRelease() {
+		return release.getTime();
 	}
 	
 	public String getProducer() {

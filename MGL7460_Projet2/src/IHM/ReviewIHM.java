@@ -21,6 +21,8 @@ import javax.swing.JTextField;
 import javax.swing.Popup;
 import javax.swing.SwingConstants;
 
+import Bean.Review;
+
 public class ReviewIHM extends JFrame{
 	
 	/**
@@ -28,14 +30,14 @@ public class ReviewIHM extends JFrame{
 	 */
 	private static final long serialVersionUID = 1L;
 	String movieName;
-	String release;
+	long release;
 	String productor;
 	String summery;
 	String kind;
 	String nationnality;
-	List<Integer> actors;
+	List<String> actors = new ArrayList<String>();
 	
-	JPanel containerParentPanel;
+	JPanel containerParentPanel = new JPanel();
 	JPanel containerPanel = new JPanel();	//General container
 	JPanel firstRowPanel = new JPanel();	//Panel for name and modify button
 	JPanel secondRowPanel = new JPanel();	//Panel for productor and release date
@@ -43,7 +45,7 @@ public class ReviewIHM extends JFrame{
 	JPanel thirdRowPanel = new JPanel();	//Panel for actors
 	JPanel fourRowPanel = new JPanel();		//Panel for summery
 	
-	//Modificables items
+	//Items modifiables
 	JTextArea summeryTextArea;
 	JTextField productorTextField;
 	JTextField releaseTextField;
@@ -52,10 +54,10 @@ public class ReviewIHM extends JFrame{
 	JLabel actorsListLabel ;
 	JPanel actorsListModifyPanel ;
 	List<String> actorsListTemp ;
-	JComboBox<String> allActorsComboBox ;
+//	JComboBox<String> allActorsComboBox ;
 	JPanel actorsSelectedPanel ;
 	JLabel actorsLabel ;
-	JButton addActor ;
+	//JButton addActor ;
 	JButton modifyReleaseButton = new JButton("Modify");
 	JButton deleateReleaseButton = new JButton("Deleate");
 
@@ -72,24 +74,18 @@ public class ReviewIHM extends JFrame{
 	 * @param nationnality
 	 * @param actors - array of integer
 	 */
-	public ReviewIHM(	JPanel containerParent,
-						String movieName,
-						String release,
-						String productor,
-						String summery,
-						String kind,
-						String nationnality,
-						List<Integer> actors
-					)
+	public ReviewIHM( JPanel containerParent, Review myReview )
 	{
-		this.movieName = movieName;
-		this.release = release;
-		this.productor = productor;
-		this.summery = summery;
-		this.actors = actors;
-		this.kind = kind;
-		this.nationnality = nationnality;
+		this.movieName = myReview.getTitle();
+		this.release = myReview.getRelease();
+		this.productor = myReview.getProducer();
+		this.summery = myReview.getSummary();
+		this.actors = myReview.getActors();
+		this.kind = myReview.getKind();
+		this.nationnality = myReview.getNationnality();
+		
 		this.containerParentPanel = containerParent ;
+		
 		modifyReleaseButton.setName("Modify");
 		deleateReleaseButton.setName("Deleate");
 
@@ -100,7 +96,6 @@ public class ReviewIHM extends JFrame{
 	 * Configuration of popup
 	 * @param container
 	 */
-	@SuppressWarnings("deprecation")
 	public JFrame startPopup(JPanel container){
 		//PopupFactory factory = PopupFactory.getSharedInstance();	new FlowLayout()
 		containerPanel.setLayout(new BoxLayout(containerPanel, BoxLayout.Y_AXIS)); 
@@ -109,7 +104,7 @@ public class ReviewIHM extends JFrame{
 		gridLayoutRow.setColumns(5);
 		gridLayoutRow.setRows(0);
 	//	gridLayoutRow.setHgap(5);
-	//	gridLayoutRow.setVgap(50); 
+	//	gridLayoutRow.setVgap(50);
 		firstRowPanel.setLayout(gridLayoutRow);
 		firstRowPanel.setName("firstRowPanel");
 		gridLayoutRow = new GridLayout();
@@ -189,7 +184,7 @@ public class ReviewIHM extends JFrame{
 		productorTextField.setEditable(false);
 		
 		JLabel releaseLabel = new JLabel ("Release : ");
-		releaseTextField = new JTextField(this.getRelease());
+		releaseTextField = new JTextField( String.valueOf( this.getRelease() ) );
 		releaseTextField.setEditable(false);
 		
 		
@@ -233,31 +228,31 @@ public class ReviewIHM extends JFrame{
 		actorsListLabel = new JLabel(listOfActors);
 		actorsListModifyPanel = new JPanel();
 		actorsListModifyPanel.setLayout(new BoxLayout(actorsListModifyPanel, BoxLayout.X_AXIS));
-		allActorsComboBox = new JComboBox<String>();
+//		allActorsComboBox = new JComboBox<String>();
 		actorsSelectedPanel = new JPanel();
 		actorsSelectedPanel.setLayout(new BoxLayout(actorsSelectedPanel, BoxLayout.Y_AXIS)); 
 
 
-		for(int i = 0 ; i < getAllActors().size(); i++){
-			allActorsComboBox.addItem(getAllActors().get(i));
-		}
-		addActor = new JButton ("Add actor");
-		addActor.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				actorsListTemp.add((String) allActorsComboBox.getSelectedItem());
-				actorsSelectedPanel.add(new JLabel(allActorsComboBox.getSelectedItem().toString()));
-				allActorsComboBox.removeItem(allActorsComboBox.getSelectedItem());
-				if(allActorsComboBox.getItemAt(0) == null){
-					allActorsComboBox.hide();
-					addActor.hide();
-					actorsLabel.setText("No more actors to add.  ");
-				}
-				actorsSelectedPanel.updateUI();
-			}
-		});
+//		for(int i = 0 ; i < getAllActors().size(); i++){
+//			allActorsComboBox.addItem(getAllActors().get(i));
+//		}
+//		addActor = new JButton ("Add actor");
+//		addActor.addActionListener(new ActionListener() {
+//			public void actionPerformed(ActionEvent e) {
+//				actorsListTemp.add((String) allActorsComboBox.getSelectedItem());
+//				actorsSelectedPanel.add(new JLabel(allActorsComboBox.getSelectedItem().toString()));
+//				allActorsComboBox.removeItem(allActorsComboBox.getSelectedItem());
+//				if(allActorsComboBox.getItemAt(0) == null){
+//					allActorsComboBox.hide();
+//					addActor.hide();
+//					actorsLabel.setText("No more actors to add.  ");
+//				}
+//				actorsSelectedPanel.updateUI();
+//			}
+//		});
 
-		actorsListModifyPanel.add(allActorsComboBox);
-		actorsListModifyPanel.add(addActor);
+//		actorsListModifyPanel.add(allActorsComboBox);
+//		actorsListModifyPanel.add(addActor);
 		actorsListModifyPanel.add(new JLabel(" Actors selected : "));
 		actorsListModifyPanel.add(actorsSelectedPanel);
 		actorsListModifyPanel.hide();
@@ -308,7 +303,7 @@ public class ReviewIHM extends JFrame{
 		return movieName;
 	}
 	
-	public String getRelease(){
+	public long getRelease(){
 		return release;
 	}
 	
@@ -320,7 +315,7 @@ public class ReviewIHM extends JFrame{
 		return summery;
 	}
 
-	public List<Integer> getActors(){
+	public List<String> getActors(){
 		return actors;
 	}
 	
