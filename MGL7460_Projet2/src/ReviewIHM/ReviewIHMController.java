@@ -1,5 +1,7 @@
 package ReviewIHM;
 
+import javax.swing.JFrame;
+
 import Bean.Review;
 import controllers.Handlers;
 
@@ -23,11 +25,7 @@ public class ReviewIHMController {
 		return false;
 	}
 	
-	public boolean deleteReview(String reviewName) {
-		
-		
-		
-		return false;
-		
+	public boolean removeReview(String reviewName) {
+		return myController.removeReview(reviewName);
 	}
 }

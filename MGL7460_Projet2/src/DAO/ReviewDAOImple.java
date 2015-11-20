@@ -79,6 +79,8 @@ public class ReviewDAOImple implements ReviewDAO {
 	}
 
 	public boolean addReview(long creationDate, long editionDate, String title, long release, String producer, String summary, String kind, String nationnality, List<String> actors) {
+		if(actors == null)
+			actors = new ArrayList<String>();
 		Connection connexion = (Connection) DBManager.getInstance().getConnection();
 		PreparedStatement statement = null;
 		ResultSet rs = null;

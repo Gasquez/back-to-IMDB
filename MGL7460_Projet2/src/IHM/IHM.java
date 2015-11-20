@@ -63,7 +63,7 @@ public class IHM extends JFrame{
 		boutonAddReview.setToolTipText("Click for add a new review");
 		boutonAddReview.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				new SelecteMovieName();
+				new SelecteMovieName(controller);
 			}
 		});
 		boutonAddReview.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -84,8 +84,7 @@ public class IHM extends JFrame{
 				public void actionPerformed(ActionEvent e) {
 					String selectedReviewName = buttonOneMovie.getText();
 					Review selectedReview = controller.getReview(selectedReviewName);
-					
-					new ReviewIHM( controller, panelLOW, selectedReview );
+					new ReviewIHM( controller, IHM.this, selectedReview );
 				}
 			});
 			list.add(buttonOneMovie);

@@ -31,7 +31,7 @@ public class ReviewIHM extends JFrame{
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	JPanel containerParentPanel = new JPanel();
+	JFrame containerParentFrame = null;
 	JPanel containerPanel = new JPanel();	//General container
 	JPanel firstRowPanel = new JPanel();	//Panel for name and modify button
 	JPanel secondRowPanel = new JPanel();	//Panel for productor and release date
@@ -56,22 +56,22 @@ public class ReviewIHM extends JFrame{
 	JButton deleteButton = new JButton("Delete");
 
 	
-	public ReviewIHM(Handlers myController, JPanel containerParent, Review myReview ) {
+	public ReviewIHM(Handlers myController, JFrame parentJFrame, Review myReview ) {
 		myReviewIHMController = new ReviewIHMController( myController, myReview );
 		
-		this.containerParentPanel = containerParent;
+		this.containerParentFrame = parentJFrame;
 		
 		modifyButton.setName("Modify");
 		deleteButton.setName("Delete");
 
-		startPopup(containerParentPanel);
+		startPopup();
 	}
 	
 	/**
 	 * Configuration of popup
 	 * @param container
 	 */
-	public JFrame startPopup(JPanel container){
+	public JFrame startPopup(){
 		//PopupFactory factory = PopupFactory.getSharedInstance();	new FlowLayout()
 		containerPanel.setLayout(new BoxLayout(containerPanel, BoxLayout.Y_AXIS)); 
 		//firstRowPanel.setLayout(new BoxLayout(firstRowPanel, BoxLayout.X_AXIS)); 
@@ -106,19 +106,12 @@ public class ReviewIHM extends JFrame{
 		deleteButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
+				boolean removeHasSucceed = myReviewIHMController.removeReview(nameOfMovieLabel.getText());
+				// action a effectuer
+				actionOnReviewRemoved(removeHasSucceed);	
 			}	
 		});
+		
 		
 		modifyButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -285,4 +278,20 @@ public class ReviewIHM extends JFrame{
 		return frame;
 
 	}
+	
+
+	private void actionOnReviewRemoved(boolean removeHasSucceed) {
+		if(removeHasSucceed)
+			closeChildren();
+		// TODO afficher à l'utilisateur qu'il y a un problème
+	}
+	
+	/** 
+	 * IHM
+	**/
+
+	public void closeChildren()
+	{
+		containerParentFrame.dispose();
+	}	
 }

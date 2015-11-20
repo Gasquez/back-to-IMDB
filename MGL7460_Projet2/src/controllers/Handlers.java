@@ -13,7 +13,6 @@ import DAO.*;
 import IHM.IHM;
 
 public class Handlers {
-	JFrame currentFrame = null;
 	
 	public Handlers() {
 		new IHM(this);
@@ -28,6 +27,14 @@ public class Handlers {
 		return daoAccess.addReview(date.getTime(), date.getTime(), title, release, producer, summary, kind, nationnality, actors);
 	}
 	
+	public boolean addReview(String title, long release)
+	{
+		ReviewDAO daoAccess = new ReviewDAOImple();
+		Timestamp stamp = new Timestamp(System.currentTimeMillis());
+		Date date = new Date(stamp.getTime());
+		return daoAccess.addReview(date.getTime(), date.getTime(), title, release, null, null, null, null, null);
+	}
+	
 	// done
 	public boolean updateReview(String oldTitle, String title, long release, String producer, String summary, String kind, String nationnality)
 	{
@@ -39,8 +46,6 @@ public class Handlers {
 
 	public Review openReview(JFrame frame, String title) 
 	{
-		currentFrame = frame;
-		closeChildren();
 		ReviewDAO daoAccess = new ReviewDAOImple();
 		return daoAccess.getReview(title);
 	}
@@ -62,12 +67,10 @@ public class Handlers {
 	}
 	
 	// done
-	public void removeReview(String title)
+	public boolean removeReview(String title)
 	{
 		ReviewDAO daoAccess = new ReviewDAOImple();
-		if(daoAccess.removeReview(title)){	
-			 	closeChildren();
-			}
+		return daoAccess.removeReview(title);
 	} 
 	
 	// done
@@ -80,27 +83,5 @@ public class Handlers {
 			reviewsTitle.add(title);
 		return reviewsTitle;
 	}
-
-	/** 
-	 * IHM
-	**/
-	public void addReview(String title)
-	{
-		JFrame newReview = new JFrame();
-	}
-
-	public boolean closeChildren()
-	{
-		if(currentFrame == null)
-		{
-			return false;
-		} 
-		else 
-		{
-			currentFrame.dispose();
-			currentFrame = null;
-			return true;
-		}
-	}	
 }
 
