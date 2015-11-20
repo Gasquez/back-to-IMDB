@@ -77,11 +77,11 @@ public class Handlers {
 	public List<String> getAllReviews()
 	{
 		ReviewDAO daoAccess = new ReviewDAOImple();
-		Map<String, Review> reviewsList = daoAccess.getAllReviews();
-		List<String> reviewsTitle = new ArrayList();
-		for(String title: reviewsList.keySet())
-			reviewsTitle.add(title);
-		return reviewsTitle;
+		Map<String, Review> reviewsMap = daoAccess.getAllReviews();
+		List<String> reviewsList = new ArrayList();
+		for(String title: reviewsMap.keySet())
+			reviewsList.add(title);
+		return reviewsList;
 	}
 }
 

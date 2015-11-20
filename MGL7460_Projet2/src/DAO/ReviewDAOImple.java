@@ -26,15 +26,7 @@ public class ReviewDAOImple implements ReviewDAO {
 		
 		try {
 			statement = (PreparedStatement) connexion.prepareStatement(
-					"SELECT * FROM review "
-					+ "LEFT OUTER JOIN "
-					+ "(SELECT * "
-					+ "FROM actorreview,actor "
-					+ "WHERE actorreview.actor_lastname=actor.lastname "
-					+ "AND actorreview.actor_firstname=actor.firstname) AS T "
-					+ "ON review.title = T.review_title "
-					+ "WHERE title=? "
-					+ ";");
+					sqlCommandFindReview(false) );
 			statement.setString(1, title);
 
 			rs = statement.executeQuery();
@@ -179,7 +171,8 @@ public class ReviewDAOImple implements ReviewDAO {
 		Map<String, Review> myMapReviews = new HashMap<String, Review>();
 		
 		try {
-			statement = (PreparedStatement) connexion.prepareStatement("SELECT * FROM review,actor,actorreview WHERE review.title = actorreview.review_title AND actorreview.actor_lastname=actor.lastname AND actorreview.actor_firstname=actor.firstname;");
+			statement = (PreparedStatement) connexion.prepareStatement(
+					sqlCommandFindReview(true) );			
 			rs = statement.executeQuery();
 
 			String title = "";
@@ -254,5 +247,20 @@ public class ReviewDAOImple implements ReviewDAO {
 		}
 		
 		return myListActors;
+	}
+	
+	private String sqlCommandFindReview(boolean selectAll) {
+		String cmd = "SELECT * FROM review "
+				+ "LEFT OUTER JOIN "
+				+ "(SELECT * "
+				+ "FROM actorreview,actor "
+				+ "WHERE actorreview.actor_lastname=actor.lastname "
+				+ "AND actorreview.actor_firstname=actor.firstname) AS T "
+				+ "ON review.title = T.review_title ";
+		if (selectAll == false)
+			cmd += "WHERE title=? ";
+		cmd += ";";
+		
+		return cmd;
 	}
 }

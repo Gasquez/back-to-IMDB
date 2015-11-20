@@ -61,9 +61,6 @@ public class ReviewIHM extends JFrame{
 		
 		this.containerParentFrame = parentJFrame;
 		
-		modifyButton.setName("Modify");
-		deleteButton.setName("Delete");
-
 		startPopup();
 	}
 	

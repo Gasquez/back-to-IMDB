@@ -100,20 +100,11 @@ public class IHM extends JFrame{
 		container.add(panelTOP);
 		container.add(panelLOW);
 		add(container);
-		pack();
+		//pack();
 		setTitle("Back to the IMDb");
+		setSize(800,600);
 		setLocationRelativeTo(null);
 	    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	    setSize(800,600);
 	    setVisible(true);
-	}
-    
-	public void cleanUP() {
-		container = new JPanel();
-		logoProject = new ImageIcon(new ImageIcon("pictures/logo-project.png").getImage().getScaledInstance(600, 150, Image.SCALE_DEFAULT));
-		panelTOP = new JPanel();
-		panelLOW = new JPanel();
-		boutonAddReview = null;
-		listMovies = null;		
 	}
 }
