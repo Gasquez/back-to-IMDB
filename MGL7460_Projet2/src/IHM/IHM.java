@@ -30,6 +30,8 @@ public class IHM extends JFrame{
 	
 	private Handlers controller = null;
 	
+	private JFrame myFrame = null;
+	
 	private JPanel container = new JPanel();
 	private ImageIcon logoProject = new ImageIcon(new ImageIcon("pictures/logo-project.png").getImage().getScaledInstance(600, 150, Image.SCALE_DEFAULT));
 	private JPanel panelTOP = new JPanel();
@@ -40,6 +42,7 @@ public class IHM extends JFrame{
 	public IHM(Handlers controller){
 		this.controller = controller;
 		listMovies = controller.getAllReviews();
+		myFrame = this;
 		startGui();
 	}
  
@@ -63,7 +66,7 @@ public class IHM extends JFrame{
 		boutonAddReview.setToolTipText("Click for add a new review");
 		boutonAddReview.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				new SelecteMovieName(controller);
+				new SelecteMovieName(controller,myFrame);
 			}
 		});
 		boutonAddReview.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -74,6 +77,7 @@ public class IHM extends JFrame{
 		list.setLayout(new BoxLayout(list, BoxLayout.Y_AXIS)); 
 		JScrollPane scrollabelPanel  = new JScrollPane(temporaire);
 		
+		//listMovies = controller.getAllReviews();
 		for(int i=0; i<listMovies.size(); i++){
 			final JButton buttonOneMovie = new JButton(listMovies.get(i));
 			buttonOneMovie.setToolTipText("Click for see review");
@@ -106,5 +110,41 @@ public class IHM extends JFrame{
 		setLocationRelativeTo(null);
 	    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	    setVisible(true);
+	}
+	
+	public void repaint(){
+		panelLOW.removeAll();
+		JPanel temporaire = new JPanel();
+		temporaire.setLayout(new FlowLayout(FlowLayout.CENTER));
+		JPanel list = new JPanel();
+		list.setLayout(new BoxLayout(list, BoxLayout.Y_AXIS)); 
+		JScrollPane scrollabelPanel  = new JScrollPane(temporaire);
+		listMovies = controller.getAllReviews();
+		for(int i=0; i<listMovies.size(); i++){
+			final JButton buttonOneMovie = new JButton(listMovies.get(i));
+			buttonOneMovie.setToolTipText("Click for see review");
+			buttonOneMovie.setFont(new java.awt.Font("Serif",1,14));
+			buttonOneMovie.setBackground(Color.GREEN);
+			buttonOneMovie.setCursor( Cursor.getPredefinedCursor(12) );
+			buttonOneMovie.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					String selectedReviewName = buttonOneMovie.getText();
+					Review selectedReview = controller.getReview(selectedReviewName);
+					new ReviewIHM( controller, IHM.this, selectedReview );
+				}
+			});
+			list.add(buttonOneMovie);
+		}
+		temporaire.add(list);		
+		
+		panelLOW.add(scrollabelPanel);
+		panelLOW.add(boutonAddReview);
+		
+		
+		panelLOW.revalidate();
+	}
+	
+	public void closeChildren(JFrame toClose){
+		toClose.dispose();
 	}
 }

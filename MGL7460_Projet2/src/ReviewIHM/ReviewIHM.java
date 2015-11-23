@@ -6,7 +6,13 @@ import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
+import java.io.Closeable;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.swing.BoxLayout;
@@ -23,9 +29,12 @@ import javax.swing.SwingConstants;
 
 import controllers.Handlers;
 import Bean.Review;
+import IHM.IHM;
 
 public class ReviewIHM extends JFrame{
 	private ReviewIHMController myReviewIHMController = null;
+	JFrame frame = null;
+
 	/**
 	 * 
 	 */
@@ -36,6 +45,7 @@ public class ReviewIHM extends JFrame{
 	JPanel firstRowPanel = new JPanel();	//Panel for name and modify button
 	JPanel secondRowPanel = new JPanel();	//Panel for productor and release date
 	JPanel secondRowBisPanel = new JPanel(); //Panel for kind and nationality
+	JPanel secondRowTerPanel = new JPanel(); //Panel for editable date and created date
 	JPanel thirdRowPanel = new JPanel();	//Panel for actors
 	JPanel fourRowPanel = new JPanel();		//Panel for summery
 	
@@ -48,6 +58,7 @@ public class ReviewIHM extends JFrame{
 	JLabel actorsListLabel ;
 	JPanel actorsListModifyPanel ;
 	List<String> actorsListTemp ;
+	JLabel secondDateLabel;
 //	JComboBox<String> allActorsComboBox ;
 	JPanel actorsSelectedPanel ;
 	JLabel actorsLabel ;
@@ -69,14 +80,12 @@ public class ReviewIHM extends JFrame{
 	 * @param container
 	 */
 	public JFrame startPopup(){
-		//PopupFactory factory = PopupFactory.getSharedInstance();	new FlowLayout()
+		DateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+
 		containerPanel.setLayout(new BoxLayout(containerPanel, BoxLayout.Y_AXIS)); 
-		//firstRowPanel.setLayout(new BoxLayout(firstRowPanel, BoxLayout.X_AXIS)); 
 		GridLayout gridLayoutRow = new GridLayout();
 		gridLayoutRow.setColumns(5);
 		gridLayoutRow.setRows(0);
-	//	gridLayoutRow.setHgap(5);
-	//	gridLayoutRow.setVgap(50);
 		firstRowPanel.setLayout(gridLayoutRow);
 		firstRowPanel.setName("firstRowPanel");
 		gridLayoutRow = new GridLayout();
@@ -84,11 +93,15 @@ public class ReviewIHM extends JFrame{
 		gridLayoutRow.setRows(0);
 		gridLayoutRow.setHgap(10);
 		secondRowPanel.setLayout(gridLayoutRow); 
-		secondRowBisPanel.setLayout(gridLayoutRow); 
+		secondRowBisPanel.setLayout(gridLayoutRow);
+		gridLayoutRow = new GridLayout();
+		gridLayoutRow.setColumns(2);
+		gridLayoutRow.setRows(0);
+		gridLayoutRow.setHgap(10);
+		secondRowTerPanel.setLayout(gridLayoutRow);
 		thirdRowPanel.setLayout(new BoxLayout(thirdRowPanel, BoxLayout.X_AXIS)); 
 		fourRowPanel.setLayout(new BoxLayout(fourRowPanel, BoxLayout.X_AXIS));
 		
-		JFrame frame = null;
 	/*
 	 * First row	
 	 */
@@ -104,7 +117,7 @@ public class ReviewIHM extends JFrame{
 			public void actionPerformed(ActionEvent e) {
 				
 				boolean removeHasSucceed = myReviewIHMController.removeReview(nameOfMovieLabel.getText());
-				// action a effectuer
+				//action to apply
 				actionOnReviewRemoved(removeHasSucceed);	
 			}	
 		});
@@ -115,7 +128,7 @@ public class ReviewIHM extends JFrame{
 				if(modifyButton.getText() == "Modify"){
 					modifyButton.setText("Validation");
 					actorsListTemp = new ArrayList<String>();
-					//TODO REFRESH  all actors in combobox
+					//TODO REFRESH  all actors in combobox					
 					summaryTextArea.setEditable(true);
 					productorTextField.setEditable(true);
 					releaseTextField.setEditable(true);
@@ -134,7 +147,14 @@ public class ReviewIHM extends JFrame{
 					nationnalityTextField.setEditable(false);
 					actorsListLabel.show() ;
 					actorsListModifyPanel.hide() ;
-					//TODO LUNCH SAVE TO CONTROLEUR
+					try { //Save in controller
+						if(myReviewIHMController.modifyReview(releaseTextField.getText(),productorTextField.getText(),summaryTextArea.getText(), kindTextField.getText(), nationnalityTextField.getText())){
+							secondDateLabel.setText("Edited : "+ formatter.format(myReviewIHMController.getReview().getEditionDate()));
+
+						}
+					} catch (ParseException e1) {
+						e1.printStackTrace();
+					};
 					//TODO Refresh actors
 				}
 				
@@ -160,7 +180,8 @@ public class ReviewIHM extends JFrame{
 		productorTextField.setEditable(false);
 		
 		JLabel releaseLabel = new JLabel ("Release : ");
-		releaseTextField = new JTextField( String.valueOf( myReviewIHMController.getReview().getRelease() ) );
+		//"Edited : "+ new Date(myReviewIHMController.getReview().getEditionDate())
+		releaseTextField = new JTextField( formatter.format(new Date(( myReviewIHMController.getReview().getRelease()))));
 		releaseTextField.setEditable(false);
 		
 		
@@ -185,6 +206,18 @@ public class ReviewIHM extends JFrame{
 		secondRowBisPanel.add(nationnalityLabel);
 		secondRowBisPanel.add(nationnalityTextField);
 		
+		
+	/*
+	 * Second row Ter
+	 */
+		JLabel firstDateLabel = new JLabel ("Created : "+ formatter.format(myReviewIHMController.getReview().getCreationDate()));
+		
+		secondDateLabel = new JLabel ("Edited : "+ formatter.format(myReviewIHMController.getReview().getEditionDate()));
+		
+		
+		secondRowTerPanel.add(firstDateLabel);
+		secondRowTerPanel.add(secondDateLabel);
+		
 	/*
 	 * Third row	
 	 */
@@ -197,7 +230,6 @@ public class ReviewIHM extends JFrame{
 			if(i !=0){
 				listOfActors = listOfActors.concat(" / ");
 			}
-			//TODO AVEC LE CONTROLEUR JUSTE DEMANDER LE NOM DE L ACTEUR EN FCT DE I
 			listOfActors = listOfActors.concat((myReviewIHMController.getReview().getActors().get(i)).toString());
 		}
 		actorsListTemp = new ArrayList<String>();	//For save selected actors
@@ -258,6 +290,7 @@ public class ReviewIHM extends JFrame{
 		containerPanel.add(firstRowPanel);
 		containerPanel.add(secondRowPanel);
 		containerPanel.add(secondRowBisPanel);
+		containerPanel.add(secondRowTerPanel);
 		containerPanel.add(thirdRowPanel);
 		containerPanel.add(fourRowPanel);
 	/*
@@ -265,9 +298,8 @@ public class ReviewIHM extends JFrame{
 	 */
 		frame = new JFrame( myReviewIHMController.getReview().getTitle() );
 		frame.add(containerPanel);
-		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-		frame.pack();
 		frame.setSize(450, 600);
 		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
@@ -278,9 +310,18 @@ public class ReviewIHM extends JFrame{
 	
 
 	private void actionOnReviewRemoved(boolean removeHasSucceed) {
-		if(removeHasSucceed)
+		if(removeHasSucceed){
+			//If the remove was good, we can close this windows and update IHM
+			containerParentFrame.repaint();
 			closeChildren();
-		// TODO afficher à l'utilisateur qu'il y a un problème
+		} else {
+			//else we show message error
+			 javax.swing.JOptionPane.showMessageDialog(
+	                    this,
+	                    "You cannot remove this review",
+	                    "Error to remove review",
+	                    javax.swing.JOptionPane.WARNING_MESSAGE);
+		}
 	}
 	
 	/** 
@@ -289,6 +330,6 @@ public class ReviewIHM extends JFrame{
 
 	public void closeChildren()
 	{
-		containerParentFrame.dispose();
+		((IHM) containerParentFrame).closeChildren(frame);
 	}	
 }

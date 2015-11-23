@@ -29,9 +29,11 @@ public class SelecteMovieName extends JFrame {
 	JTextField nameTextField, dateTextField;
 	JButton validationButton;
 	Handlers controller;
+	JFrame myParentFrame;
 	
-	public SelecteMovieName(Handlers controller){
+	public SelecteMovieName(Handlers controller, JFrame parent){
 		this.controller = controller;
+		this.myParentFrame = parent;
 		this.startGui();
 	}
 	
@@ -46,16 +48,17 @@ public class SelecteMovieName extends JFrame {
 		nameTextField = new JTextField("Enter here the movie name.");
 		
 		dateLabel = new JLabel("date of movie : ");
-		dateTextField = new JTextField("Enter here the movie release date.");
+		dateTextField = new JTextField("Enter here the movie release date (dd-MM-yyyy).");
 		
 		validationButton = new JButton("Ok");
 		validationButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				DateFormat format = new SimpleDateFormat("MMM d, yyyy", Locale.CANADA);
+				DateFormat format = new SimpleDateFormat("dd-MM-yyyy");
 				Date date;
 				try {
 					date = format.parse(dateTextField.getText());
 					controller.addReview(nameTextField.getText(), date.getTime());
+					myParentFrame.repaint();
 				} catch (ParseException e1) {
 					e1.printStackTrace();
 				}
