@@ -291,14 +291,14 @@ public class ReviewIHM extends JFrame{
 		containerPanel.add(secondRowPanel);
 		containerPanel.add(secondRowBisPanel);
 		containerPanel.add(secondRowTerPanel);
-		containerPanel.add(thirdRowPanel);
+//		containerPanel.add(thirdRowPanel);	actors pannel
 		containerPanel.add(fourRowPanel);
 	/*
 	 * Launch popup
 	 */
 		frame = new JFrame( myReviewIHMController.getReview().getTitle() );
 		frame.add(containerPanel);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
 		frame.setSize(450, 600);
 		frame.setLocationRelativeTo(null);
